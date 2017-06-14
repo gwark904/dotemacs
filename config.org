@@ -112,6 +112,58 @@ Use 2 space widths per indent.
   (setq-default tab-width 2)
 #+END_SRC
 
+* Sane Defaults
+
+Most of these settings come from [[https://github.com/magnars/.emacs.d/blob/master/settings/sane-defaults.el][Magnar Sveen]] or [[https://github.com/danielmai/.emacs.d/blob/master/config.org][Daniel Mai]].
+
+#+BEGIN_SRC emacs-lisp
+  ;; UTF-8 please
+  (setq locale-coding-system 'utf-8) ; pretty
+  (set-terminal-coding-system 'utf-8) ; pretty
+  (set-keyboard-coding-system 'utf-8) ; pretty
+  (set-selection-coding-system 'utf-8) ; please
+  (prefer-coding-system 'utf-8) ; with sugar on top
+
+  ;; Auto refresh buffers
+  (global-auto-revert-mode 1)
+
+  ;; Don't beep at me
+  (setq visible-bell t)
+
+  ;; Remove text in active region if inserting text
+  (delete-selection-mode 1)
+
+  ;; Show me empty lines after buffer end
+  (set-default 'indicate-empty-lines t)
+
+  ;; Easily navigate sillycased words
+  (global-subword-mode 1)
+
+  ;; Don't break lines for me, please
+  (setq-default truncate-lines t)
+
+  ;; Allow recursive minibuffers
+  (setq enable-recursive-minibuffers t)
+
+  ;; Focus the current line.
+  (global-hl-line-mode t)
+
+  ;; Display column numbers in the mode line.
+  (setq column-number-mode t)
+
+  ;; Show keystrokes in progress
+  (setq echo-keystrokes 0.1)
+
+  ;; Move files to trash when deleting
+  (setq delete-by-moving-to-trash t)
+
+  ;; Real emacs knights don't use shift to mark things
+  (setq shift-select-mode nil)
+
+  ;; Sentences do not need double spaces to end. Period.
+  (set-default 'sentence-end-double-space nil)
+#+END_SRC
+
 * Packages
 
 ** MANUAL
