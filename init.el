@@ -29,7 +29,11 @@
   (require 'bind-key) ; simplifies how keybindings are set
 
   ;; Tangle and load the rest of the config.
-  (org-babel-load-file "~/.emacs.d/config.org"))
+  (org-babel-load-file "~/.emacs.d/config.org")
+
+  ;; Load private-ish settings if they exist
+  (if (file-exists-p "~/Dropbox/.private.org")
+      (org-babel-load-file "~/Dropbox/.private.org")))
 
 ;; Revert garbage collection behavior to a normal, more modern level.
 (run-with-idle-timer
