@@ -28,8 +28,8 @@
   (require 'diminish) ; allows for easy removal of packages' modeline strings
   (require 'bind-key) ; simplifies how keybindings are set
 
-  ;; TODO add/load org files here
-  )
+  ;; Tangle and load the rest of the config.
+  (org-babel-load-file "~/.emacs.d/config.org"))
 
 ;; Revert garbage collection behavior to a normal, more modern level.
 (run-with-idle-timer
