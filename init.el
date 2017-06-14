@@ -41,15 +41,4 @@
  (lambda ()
    (setq gc-cons-threshold 20000000))) ; magnars' recommendation
 
-
-;; Prevent Emacs clutter by moving backup/autosave files to system's tempdir
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
-;; Prevent customization settings from appending junk to this file.
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file :noerror)
-
 ;;; init.el ends here
