@@ -1,1 +1,6 @@
+#+TITLE: README.org --- My personal GNU Emacs config
+#+DATE: <2017-06-13 Tue>
+#+AUTHOR: Geoffrey T. Wark
+#+EMAIL: geoff@geoffwark.com
+
 */!\ NO SUPPORT WILL BE PROVIDED /!\*
