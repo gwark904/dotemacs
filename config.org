@@ -97,6 +97,21 @@ Make region (selection) colors more obvious.
       (add-to-list 'default-frame-alist '(font . "Liberation Mono"));)
 #+END_SRC
 
+* Indentation
+** Default
+
+Don't use tabs.  You can still insert a tab if needed with =C-q tab=
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default indent-tabs-mode nil)
+#+END_SRC
+
+Use 2 space widths per indent.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 2)
+#+END_SRC
+
 * Packages
 
 ** MANUAL
