@@ -21,6 +21,12 @@ Prevent Emacs clutter by moving backup/autosave files to system's tempdir
         `((".*" ,temporary-file-directory t)))
 #+END_SRC
 
+Always install MELPA packages automatically if not already present on the system.
+
+#+BEGIN_SRC emacs-lisp
+  (setq use-package-always-ensure t)
+#+END_SRC
+
 * Packages
 
 ** MANUAL
