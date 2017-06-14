@@ -175,5 +175,8 @@ Run Pandora as an inferior process in emacs by using pianobar
   (if (file-exists-p "~/workspace/elisp/pianobar.el/pianobar.el")
       (progn
         (add-to-list 'load-path "~/workspace/elisp/pianobar.el/")
-        (autoload 'pianobar "pianobar" nil t)))
+        (autoload 'pianobar "pianobar" nil t)
+
+        (add-hook 'pianobar-mode-hook '(lambda ()
+                                         (setq truncate-lines nil)))))
 #+END_SRC
