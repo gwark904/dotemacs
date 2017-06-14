@@ -27,6 +27,76 @@ Always install MELPA packages automatically if not already present on the system
   (setq use-package-always-ensure t)
 #+END_SRC
 
+* User Interface
+** Free up screen real estate
+
+The following toolbars take up unnecessary space:
+
+#+BEGIN_SRC emacs-lisp
+  (menu-bar-mode -1)
+  (scroll-bar-mode -1)
+  (tool-bar-mode -1)
+#+END_SRC
+
+** Theme
+
+[[http://kippura.org/zenburnpage/][Zenburn]] is pretty easy on the eyes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package zenburn-theme
+    :init
+    (load-theme 'zenburn t))
+#+END_SRC
+
+** Cursor
+
+Make the cursor bright red so that it's more easy to track.
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(cursor-color . "red"))
+#+END_SRC
+
+Also stop that goddamn blinking!
+
+#+BEGIN_SRC emacs-lisp
+  (blink-cursor-mode -1)
+#+END_SRC
+
+** Face
+
+Italicize comments.
+
+#+BEGIN_SRC emacs-lisp
+  (make-face-italic 'font-lock-comment-face)
+#+END_SRC
+
+Make region (selection) colors more obvious.
+
+#+BEGIN_SRC emacs-lisp
+  (set-face-attribute 'region nil
+                      :background "white smoke"
+                      :foreground "black")
+#+END_SRC
+
+** Font
+
+[[https://pagure.io/liberation-fonts][Liberation Fonts]] are pretty dope.  Be sure you have them installed.
+
+#+BEGIN_SRC emacs-lisp
+  ;; TODO make this compatiable with daemon/terminal/Windows emacs
+
+  ;; SOURCE= https://www.emacswiki.org/emacs/SetFonts
+  ;; (defun font-exists-p (font)
+  ;;   "Check if a particular font is present on the system.
+
+  ;; Returns a BOOLEAN"
+  ;;   (if (null (x-list-fonts font))
+  ;;       nil t))
+
+  ;; (if (font-exists-p "Liberation Mono")
+      (add-to-list 'default-frame-alist '(font . "Liberation Mono"));)
+#+END_SRC
+
 * Packages
 
 ** MANUAL
