@@ -186,7 +186,86 @@ Streamlink (useful for watching Twitch.tv)
 
 ** Borrowed
 
+[[https://www.emacswiki.org/emacs/MoveLine][Move Line]]
 
+#+BEGIN_SRC emacs-lisp
+  (defun move-line (n)
+    "Move the current line up or down by N lines."
+    (interactive "p")
+    (setq col (current-column))
+    (beginning-of-line) (setq start (point))
+    (end-of-line) (forward-char) (setq end (point))
+    (let ((line-text (delete-and-extract-region start end)))
+      (forward-line n)
+      (insert line-text)
+      ;; restore point to original column in moved line
+      (forward-line -1)
+      (forward-char col)))
+
+  (defun move-line-up (n)
+    "Move the current line up by N lines."
+    (interactive "p")
+    (move-line (if (null n) -1 (- n))))
+
+  (defun move-line-down (n)
+    "Move the current line down by N lines."
+    (interactive "p")
+    (move-line (if (null n) 1 n)))
+
+  (global-set-key (kbd "M-<up>") 'move-line-up)
+  (global-set-key (kbd "M-<down>") 'move-line-down)
+#+END_SRC
+
+Automatically Create Parent Directories on Visiting a New File in Emacs (credit to [[http://iqbalansari.me/blog/2014/12/07/automatically-create-parent-directories-on-visiting-a-new-file-in-emacs/][Iqbal Ansari]])
+
+#+BEGIN_SRC emacs-lisp
+  (defun my-create-non-existent-directory ()
+        (let ((parent-directory (file-name-directory buffer-file-name)))
+          (when (and (not (file-exists-p parent-directory))
+                     (y-or-n-p (format "Directory `%s' does not exist! Create it?" parent-directory)))
+            (make-directory parent-directory t))))
+
+  (add-to-list 'find-file-not-found-functions #'my-create-non-existent-directory)
+#+END_SRC
+
+editing with root-privileges -- once more ([[https://emacs-fu.blogspot.com/2013/03/editing-with-root-privileges-once-more.html][credit]])
+
+#+BEGIN_SRC emacs-lisp
+  (defun djcb-find-file-as-root ()
+    "Like `ido-find-file, but automatically edit the file with
+  root-privileges (using tramp/sudo), if the file is not writable by
+  user."
+    (interactive)
+    (let ((file (ido-read-file-name "Edit as root: ")))
+      (unless (file-writable-p file)
+        (setq file (concat "/sudo:root@localhost:" file)))
+      (find-file file)))
+  ;; or some other keybinding...
+  (global-set-key (kbd "C-x F") 'djcb-find-file-as-root)
+#+END_SRC
+
+Rename file and buffer ([[https://rejeep.github.io/emacs/elisp/2010/03/26/rename-file-and-buffer-in-emacs.html][credit]])
+
+#+BEGIN_SRC emacs-lisp
+  (defun rename-this-buffer-and-file ()
+    "Renames current buffer and file it is visiting."
+    (interactive)
+    (let ((name (buffer-name))
+          (filename (buffer-file-name)))
+      (if (not (and filename (file-exists-p filename)))
+          (error "Buffer '%s' is not visiting a file!" name)
+        (let ((new-name (read-file-name "New name: " filename)))
+          (cond ((get-buffer new-name)
+                 (error "A buffer named '%s' already exists!" new-name))
+                (t
+                 (rename-file filename new-name 1)
+                 (rename-buffer new-name)
+                 (set-visited-file-name new-name)
+                 (set-buffer-modified-p nil)
+                 (message "File '%s' successfully renamed to '%s'" name (file-name-nondirectory new-name))))))))
+
+  (global-set-key (kbd "C-c r") 'rename-this-buffer-and-file)
+#+END_SRC
 
 * Packages
 
