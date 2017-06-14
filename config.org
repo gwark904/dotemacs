@@ -8,3 +8,17 @@
 #+BEGIN_SRC emacs-lisp
 ;
 #+END_SRC
+
+* Packages
+
+** MANUAL
+*** pianobar.el
+
+Run Pandora as an inferior process in emacs by using pianobar 
+
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "~/workspace/elisp/pianobar.el/pianobar.el")
+      (progn
+        (add-to-list 'load-path "~/workspace/elisp/pianobar.el/")
+        (autoload 'pianobar "pianobar" nil t)))
+#+END_SRC
