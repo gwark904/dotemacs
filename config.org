@@ -164,6 +164,30 @@ Most of these settings come from [[https://github.com/magnars/.emacs.d/blob/mast
   (set-default 'sentence-end-double-space nil)
 #+END_SRC
 
+* Custom Functions
+** Mine
+
+Insert and go to a newline from anywhere in the current line.
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-n") '(lambda ()
+                                 (interactive)
+                                 (end-of-line)
+                                 (newline-and-indent)))
+#+END_SRC
+
+Streamlink (useful for watching Twitch.tv)
+
+#+BEGIN_SRC emacs-lisp
+  (defun streamlink (link quality)
+    (interactive "sLink: \nsQuality? ")
+    (async-shell-command (concat "streamlink " link " " quality)))
+#+END_SRC
+
+** Borrowed
+
+
+
 * Packages
 
 ** MANUAL
