@@ -612,3 +612,9 @@ Run Pandora as an inferior process in emacs by using pianobar
         (add-hook 'pianobar-mode-hook '(lambda ()
                                          (setq truncate-lines nil)))))
 #+END_SRC
+** Extra Diminishes
+
+#+BEGIN_SRC emacs-lisp
+  (diminish 'subword-mode)
+  (diminish 'auto-revert-mode)
+#+END_SRC
