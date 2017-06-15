@@ -268,6 +268,335 @@ Rename file and buffer ([[https://rejeep.github.io/emacs/elisp/2010/03/26/rename
 #+END_SRC
 
 * Packages
+** eshell
+
+Turn off some undesirable minor modes
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'eshell-mode-hook (lambda ()
+                               (company-mode -1)
+                               (toggle-truncate-lines)))
+#+END_SRC
+
+** MELPA
+*** anzu
+
+Show number of matches in mode-line while searching
+
+#+BEGIN_SRC emacs-lisp
+  (use-package anzu
+    :diminish anzu-mode
+    :init
+    (global-anzu-mode t))
+#+END_SRC
+
+*** ace-jump-mode
+
+a quick cursor location minor mode for emacs
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-jump-mode
+    :diminish ace-jump-mode
+    :init
+    (define-key global-map (kbd "C-c SPC") 'ace-jump-mode))
+#+END_SRC
+
+*** ace-window
+
+Quickly switch windows.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window
+    :bind ("M-p" . ace-window)
+    :config
+    (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
+#+END_SRC
+
+*** company
+
+Modular text completion framework
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company
+    :diminish company-mode
+    :init
+    (add-hook 'after-init-hook 'global-company-mode))
+#+END_SRC
+
+**** company-emoji
+
+company-mode backend for emoji
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-emoji
+    :config
+    (add-to-list 'company-backends 'company-emoji))
+#+END_SRC
+
+*** embrace
+
+Add/Change/Delete pairs based on `expand-region'
+
+#+BEGIN_SRC emacs-lisp
+  (use-package embrace
+    :init
+    (global-set-key (kbd "C-,") #'embrace-commander)
+    (add-hook 'org-mode-hook #'embrace-org-mode-hook))
+#+END_SRC
+
+*** emojify
+
+Display emojis in Emacs
+
+#+BEGIN_SRC emacs-lisp
+  (use-package emojify
+    :init
+    (add-hook 'after-init-hook #'global-emojify-mode))
+#+END_SRC
+
+*** expand-region
+
+Increase selected region by semantic units.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package expand-region
+    :bind ("C-=" . er/expand-region))
+#+END_SRC
+
+*** fill-column-indicator
+
+Graphically indicate the fill column
+
+#+BEGIN_SRC emacs-lisp
+  (use-package fill-column-indicator
+    :init
+    (setq-default fill-column 80)
+    (setq fci-rule-color "pink")
+    (setq fci-rule-width 1)
+    (add-hook 'prog-mode-hook 'fci-mode))
+#+END_SRC
+
+*** flycheck
+
+On-the-fly syntax checking
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flycheck
+    :diminish flycheck-mode
+    :init
+    (add-hook 'after-init-hook #'global-flycheck-mode))
+#+END_SRC
+
+*** flyspell
+
+On-the-fly spell checking
+
+#+BEGIN_SRC emacs-lisp
+  (use-package flyspell
+    :diminish flyspell-mode
+    :init
+    (setq flyspell-issue-message-flag nil)
+    :config
+    ;; Disable some keybindings so that they do not conflict with other modes.
+    (define-key flyspell-mode-map (kbd "C-,") nil) ; embrace
+    
+    (add-hook 'text-mode-hook 'flyspell-mode))
+#+END_SRC
+
+*** fringe-helper
+
+helper functions for fringe bitmaps
+
+#+BEGIN_SRC emacs-lisp
+  (use-package fringe-helper)
+#+END_SRC
+
+*** git-gutter-fringe
+
+Fringe version of git-gutter.el
+
+#+BEGIN_SRC emacs-lisp
+  (use-package git-gutter-fringe
+    :diminish git-gutter-mode
+    :config
+    (set-face-foreground 'git-gutter-fr:added "green")
+    (set-face-foreground 'git-gutter-fr:deleted "blue")
+    (set-face-foreground 'git-gutter-fr:modified "yellow")
+    (global-git-gutter-mode t))
+#+END_SRC
+
+*** hl-indent
+
+Highlight irregular indentation.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package hl-indent
+    :init
+    (add-hook 'prog-mode-hook 'hl-indent-mode)
+    :config
+    (set-face-background 'hl-indent-face "gray27"))
+#+END_SRC
+
+*** ido
+
+InteractivelyDoThings
+
+#+BEGIN_SRC emacs-lisp
+  (use-package ido
+    :init
+    (use-package ido-complete-space-or-hyphen)
+    (setq ido-everywhere t)
+    (ido-mode t)
+    (use-package ido-vertical-mode
+      :init
+      (ido-vertical-mode t)
+      (setq ido-vertical-define-keys 'C-n-and-C-p-only))
+    (use-package flx-ido
+      :init
+      (flx-ido-mode 1)
+      ;; disable ido faces to see flx highlights.
+      (setq ido-enable-flex-matching t)
+      (setq ido-use-faces nil)))
+#+END_SRC
+
+_NOTE:_ Make this prettier :(
+
+*** magit
+
+A Git porcelain inside Emacs
+
+#+BEGIN_SRC emacs-lisp
+  (use-package magit
+    :bind ("C-c g" . magit-status)
+    :config
+    ;; full screen magit-status
+    ;; SOURCE= http://whattheemacsd.com/setup-magit.el-01.html
+
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows))
+
+    (defun magit-quit-session ()
+      "Restores the previous window configuration and kills the magit buffer"
+      (interactive)
+      (kill-buffer)
+      (jump-to-register :magit-fullscreen))
+
+    (define-key magit-status-mode-map (kbd "q") 'magit-quit-session))
+#+END_SRC
+
+*** multiple-cursors
+
+Multiple cursors for Emacs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package multiple-cursors
+    :bind (("C-c M" . mc/edit-lines)
+           ("C-S-<mouse-1>" . mc/add-cursor-on-click)))
+#+END_SRC
+
+*** nyan-mode
+
+Nyan Cat shows position in current buffer in mode-line.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package nyan-mode
+    :init
+    (nyan-mode t))
+#+END_SRC
+
+*** Org-mode related
+
+
+
+Disable some keybindings so that they do not conflict with other modes.
+
+#+BEGIN_SRC emacs-lisp
+  (define-key org-mode-map (kbd "C-c SPC") nil) ; ace-jump-mode
+  (define-key org-mode-map (kbd "C-,") nil) ; embrace
+#+END_SRC
+
+*** page-break-lines
+
+Display ugly ^L page breaks as tidy horizontal lines
+
+#+BEGIN_SRC emacs-lisp
+  (use-package page-break-lines
+    :diminish page-break-lines-mode
+    :init
+    (global-page-break-lines-mode))
+#+END_SRC
+
+*** projectile
+
+Manage and navigate projects in Emacs easily
+
+#+BEGIN_SRC emacs-lisp
+  (use-package projectile
+    :init
+    (projectile-global-mode))
+#+END_SRC
+
+*** rainbow-delimiters
+
+Highlight brackets according to their depth
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-delimiters
+    :init
+    (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+#+END_SRC
+
+*** simpleclip
+
+Simplified access to the system clipboard
+
+#+BEGIN_SRC emacs-lisp
+  (use-package simpleclip
+    :bind (("C-c C-1" . simpleclip-copy)
+           ("C-c C-2" . simpleclip-cut)
+           ("C-c C-3" . simpleclip-paste))
+    :init
+    (simpleclip-mode t))
+#+END_SRC
+
+*** smartparens
+
+Automatic insertion, wrapping and paredit-like navigation with user defined pairs.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smartparens
+    :diminish smartparens-mode
+    :init
+    (require 'smartparens-config)
+    (smartparens-global-mode t))
+#+END_SRC
+
+*** smex
+
+M-x interface with Ido-style fuzzy matching.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package smex
+    :bind (("M-x" . smex)
+           ("M-X" . smex-major-mode-commands)
+           ("C-c C-c M-x" . execute-extended-command))
+    :init
+    (smex-initialize))
+#+END_SRC
+
+*** which-key
+
+Display available keybindings in popup
+
+#+BEGIN_SRC emacs-lisp
+  (use-package which-key
+    :diminish which-key-mode
+    :init
+    (setq which-key-idle-delay 1.5)
+    (which-key-mode))
+#+END_SRC
 
 ** MANUAL
 *** pianobar.el
