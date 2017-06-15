@@ -6,3 +6,5 @@ session.*
 emojis/
 /projectile-bookmarks.eld
 /smex-items
+/.mc-lists.el
+/ido.last
