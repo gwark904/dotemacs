@@ -3,3 +3,6 @@ elpa/
 config.el
 custom.el
 session.*
+emojis/
+/projectile-bookmarks.eld
+/smex-items
