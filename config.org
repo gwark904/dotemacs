@@ -617,6 +617,7 @@ Run Pandora as an inferior process in emacs by using pianobar
 #+BEGIN_SRC emacs-lisp
   (diminish 'subword-mode)
   (diminish 'auto-revert-mode)
+  (diminish 'visual-line-mode)
 #+END_SRC
 
 * Finishing Touches
