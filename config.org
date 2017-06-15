@@ -278,6 +278,14 @@ Turn off some undesirable minor modes
                                (toggle-truncate-lines)))
 #+END_SRC
 
+** winner-mode
+
+Winner Mode is a global minor mode. When activated, it allows you to \u201cundo\u201d (and \u201credo\u201d) changes in the window configuration with the key commands =C-c left= and =C-c right=
+
+#+BEGIN_SRC emacs-lisp
+  (winner-mode 1)
+#+END_SRC
+
 ** MELPA
 *** anzu
 
