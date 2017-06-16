@@ -604,6 +604,17 @@ Highlight brackets according to their depth
     (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 #+END_SRC
 
+*** rainbow-mode
+
+rainbow-mode is a minor mode for Emacs which displays strings representing colors with the color they represent as background.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rainbow-mode
+    :diminish rainbow-mode
+    :init
+    (add-hook 'css-mode-hook 'rainbow-mode))
+#+END_SRC
+
 *** simpleclip
 
 Simplified access to the system clipboard
@@ -662,6 +673,7 @@ major mode for editing web templates
       (setq web-mode-enable-auto-pairing t)
 
       (setq web-mode-enable-html-entities-fontification t)
+      (setq web-mode-enable-css-colorization t)
       
       (add-hook 'web-mode-hook (lambda ()
                                  (smartparens-mode -1)
