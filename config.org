@@ -112,6 +112,19 @@ Use 2 space widths per indent.
   (setq-default tab-width 2)
 #+END_SRC
 
+** WebDev
+
+Use 2 spaces for everything.  These need to be explicitly set for some dumb reason.
+
+#+BEGIN_SRC emacs-lisp
+  (setq css-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-script-padding 2)
+  (setq web-mode-style-padding 2)
+#+END_SRC
+
 * Sane Defaults
 
 Most of these settings come from [[https://github.com/magnars/.emacs.d/blob/master/settings/sane-defaults.el][Magnar Sveen]] or [[https://github.com/danielmai/.emacs.d/blob/master/config.org][Daniel Mai]].
@@ -381,7 +394,9 @@ Graphically indicate the fill column
     (setq-default fill-column 80)
     (setq fci-rule-color "pink")
     (setq fci-rule-width 1)
-    (add-hook 'prog-mode-hook 'fci-mode))
+    (add-hook 'prog-mode-hook (lambda ()
+                                (unless (eq major-mode 'web-mode)
+                                  (fci-mode)))))
 #+END_SRC
 
 *** flycheck
@@ -594,6 +609,36 @@ M-x interface with Ido-style fuzzy matching.
     (smex-initialize))
 #+END_SRC
 
+*** web-mode
+
+major mode for editing web templates
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :mode ("\\.html?\\'"
+           "\\.phtml\\'"
+           "\\.tpl\\.php\\'"
+           "\\.[agj]sp\\'"
+           "\\.as[cp]x\\'"
+           "\\.erb\\'"
+           "\\.mustache\\'"
+           "\\.djhtml\\'")
+    :init
+    (progn
+      (setq web-mode-enable-auto-closing t)
+      (setq web-mode-enable-auto-pairing t)
+
+      (setq web-mode-enable-html-entities-fontification t)
+      
+      (add-hook 'web-mode-hook (lambda ()
+                                 (smartparens-mode -1)
+                                 (toggle-truncate-lines)
+                                 (setq visible-lines t)
+                                 (flyspell-prog-mode))))
+    :config
+    (set-face-foreground 'web-mode-html-entity-face "gray50"))
+#+END_SRC
+
 *** which-key
 
 Display available keybindings in popup
@@ -620,6 +665,17 @@ Run Pandora as an inferior process in emacs by using pianobar
         (add-hook 'pianobar-mode-hook '(lambda ()
                                          (setq truncate-lines nil)))))
 #+END_SRC
+*** visible-lines.el
+
+move across visible lines instead of logic lines
+
+#+BEGIN_SRC emacs-lisp
+  (if (file-exists-p "~/workspace/elisp/visible-lines.el/visible-lines.el")
+      (progn
+        (add-to-list 'load-path "~/workspace/elisp/visible-lines.el/")
+        (require 'visible-lines)))
+#+END_SRC
+
 ** Extra Diminishes
 
 #+BEGIN_SRC emacs-lisp
