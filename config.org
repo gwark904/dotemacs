@@ -333,6 +333,29 @@ Quickly switch windows.
     (setq aw-keys '(?a ?o ?e ?u ?h ?t ?n ?s)))
 #+END_SRC
 
+*** auctex
+
+Sophisticated document creation
+
+#+BEGIN_SRC emacs-lisp
+  ;; AUCTeX doesn't play nice with use-package...
+  (unless (package-installed-p 'auctex)
+    (package-refresh-contents)
+    (package-install 'auctex))
+
+  (require 'latex)
+#+END_SRC
+
+**** latex-preview-pane
+
+Makes LaTeX editing less painful by providing a updatable preview pane
+
+#+BEGIN_SRC emacs-lisp
+  (use-package latex-preview-pane
+    :config
+    (latex-preview-pane-enable))
+#+END_SRC
+
 *** company
 
 Modular text completion framework
@@ -352,6 +375,16 @@ company-mode backend for emoji
   (use-package company-emoji
     :config
     (add-to-list 'company-backends 'company-emoji))
+#+END_SRC
+
+**** company-auctex
+
+Company-mode auto-completion for AUCTeX
+
+#+BEGIN_SRC emacs-lisp
+  (use-package company-auctex
+    :init
+    (company-auctex-init))
 #+END_SRC
 
 *** embrace
